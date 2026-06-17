@@ -73,8 +73,9 @@
   .arow.on{border-color:var(--ac)}
   .arow-top{display:flex;align-items:center;gap:8px}
   .sw{width:11px;height:11px;border-radius:3px;flex-shrink:0;background:var(--ac)}
-  .anm{font-size:.8rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .anm .mu{font-size:.64rem;color:#64748b}
+  .anm{font-size:.82rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .acap{font-size:.66rem;color:#94a3b8;margin-top:4px}
+  .acap b{color:#cbd5e1}
   .dice-faces{display:flex;gap:3px;margin-top:6px}
   .face{flex:1;font-size:.6rem;padding:2px 0;border-radius:4px;background:#15203a;border:1px solid #2a3a5c;text-align:center}
   .face.pos{color:#4ade80}.face.neg{color:#f87171}.face.zero{color:#94a3b8}
@@ -424,11 +425,12 @@ function renderAlloc(){
     return `<div class="arow ${n>0?'on':''}" style="--ac:${a.ac}">
       <div class="arow-top">
         <span class="sw"></span>
-        <span class="anm">${a.nm} ${tag} <span class="mu">平均${a.mu>0?'+':''}${a.mu.toFixed(1)}% σ${a.sig.toFixed(0)}</span></span>
+        <span class="anm">${a.nm} ${tag}</span>
         <button class="stepb" ${(!editable||n===0)?'disabled':''} onclick="bump('${a.id}',-1)">−</button>
         <span class="tkn">${n}</span>
         <button class="stepb" ${(!editable||u>=TOKENS)?'disabled':''} onclick="bump('${a.id}',1)">＋</button>
       </div>
+      <div class="acap">平均リターン <b>${a.mu>0?'+':''}${a.mu.toFixed(1)}%</b>／年　・　ブレ幅 <b>σ${a.sig.toFixed(0)}</b></div>
       <div class="dice-faces">${a.faces.map(faceHtml).join('')}</div>
     </div>`;
   }).join('');
