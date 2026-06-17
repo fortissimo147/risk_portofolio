@@ -69,11 +69,16 @@
   .panel h3{font-size:.78rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
   .panel .ph{font-size:.72rem;color:#64748b;margin-bottom:10px}
   .alist{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
-  .arow{display:flex;align-items:center;gap:8px;background:#0b1220;border:1px solid #2a3a5c;border-radius:9px;padding:6px 8px}
+  .arow{background:#0b1220;border:1px solid #2a3a5c;border-radius:9px;padding:7px 9px}
   .arow.on{border-color:var(--ac)}
+  .arow-top{display:flex;align-items:center;gap:8px}
   .sw{width:11px;height:11px;border-radius:3px;flex-shrink:0;background:var(--ac)}
   .anm{font-size:.8rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .anm .mu{font-size:.66rem;color:#64748b}
+  .anm .mu{font-size:.64rem;color:#64748b}
+  .dice-faces{display:flex;gap:3px;margin-top:6px}
+  .face{flex:1;font-size:.6rem;padding:2px 0;border-radius:4px;background:#15203a;border:1px solid #2a3a5c;text-align:center}
+  .face.pos{color:#4ade80}.face.neg{color:#f87171}.face.zero{color:#94a3b8}
+  .face.best{box-shadow:0 0 0 1px var(--ac) inset}
   .tag{font-size:.58rem;padding:1px 5px;border-radius:8px;border:1px solid #2a3a5c}
   .tag.mk{color:#fca5a5}.tag.sf{color:#86efac}
   .stepb{width:26px;height:26px;border-radius:6px;border:1px solid #475569;background:#15203a;color:#e2e8f0;font-size:1.1rem;cursor:pointer;line-height:1;flex-shrink:0}
@@ -409,6 +414,7 @@ function renderChart(){
   });
   document.getElementById('game-chart').innerHTML=s;
 }
+function faceHtml(v){const c=v>0?'pos':v<0?'neg':'zero';return `<span class="face ${c}">${v>0?'+':''}${v}</span>`;}
 function renderAlloc(){
   const editable=G.phase==='allocate';
   const al=G.you.alloc, u=used(al);
@@ -416,11 +422,14 @@ function renderAlloc(){
     const n=al[a.id]||0;
     const tag=a.market?'<span class="tag mk">市場連動</span>':'<span class="tag sf">無関係</span>';
     return `<div class="arow ${n>0?'on':''}" style="--ac:${a.ac}">
-      <span class="sw"></span>
-      <span class="anm">${a.nm} ${tag}<br><span class="mu">平均${a.mu>0?'+':''}${a.mu.toFixed(1)}% / σ${a.sig.toFixed(0)}</span></span>
-      <button class="stepb" ${(!editable||n===0)?'disabled':''} onclick="bump('${a.id}',-1)">−</button>
-      <span class="tkn">${n}</span>
-      <button class="stepb" ${(!editable||u>=TOKENS)?'disabled':''} onclick="bump('${a.id}',1)">＋</button>
+      <div class="arow-top">
+        <span class="sw"></span>
+        <span class="anm">${a.nm} ${tag} <span class="mu">平均${a.mu>0?'+':''}${a.mu.toFixed(1)}% σ${a.sig.toFixed(0)}</span></span>
+        <button class="stepb" ${(!editable||n===0)?'disabled':''} onclick="bump('${a.id}',-1)">−</button>
+        <span class="tkn">${n}</span>
+        <button class="stepb" ${(!editable||u>=TOKENS)?'disabled':''} onclick="bump('${a.id}',1)">＋</button>
+      </div>
+      <div class="dice-faces">${a.faces.map(faceHtml).join('')}</div>
     </div>`;
   }).join('');
   document.getElementById('usedtok').textContent=u;
