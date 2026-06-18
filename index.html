@@ -279,6 +279,8 @@
       <div class="stat"><span class="k">出目の平均リターン（年）<span class="gloss">市場リスク込みの実効<b>期待収益率</b>は <b id="s-eff" style="color:#4ade80">—</b>（出目 − β×暴落ドラッグ）</span></span><span class="v" id="s-mu" style="color:#4ade80">—</span></div>
       <div class="stat"><span class="k">ポートフォリオ β<span class="gloss">教科書：<b>市場感応度（システマティック・リスク）</b>。市場が1%動くと平均何%動くか</span></span><span class="v" id="s-mk" style="color:#fca5a5">—</span></div>
       <div class="stat"><span class="k">分けた資産の数<span class="gloss">多いほど<b>個別リスク</b>が分散で消える</span></span><span class="v" id="s-n" style="color:#93c5fd">0</span></div>
+      <div class="stat"><span class="k">ポートフォリオ σ（リスク）<span class="gloss">総標準偏差 ＝ √( Σwᵢ²σᵢ² ＋ (Σwᵢβᵢ)²·σ²市場 )。左＝個別リスク、右＝市場リスク</span></span><span class="v" id="s-sigma" style="color:#fbbf24">—</span></div>
+      <div class="stat"><span class="k">シャープレシオ<span class="gloss">＝ (実効期待リターン − 無リスク金利2.0%) ÷ σ。リスク1単位あたりの超過リターン（高いほど効率的）</span></span><span class="v" id="s-sharpe" style="color:#a78bfa">—</span></div>
       <div class="hint" id="hint">トークンを置くとアドバイスが出ます。</div>
       <button class="btn" id="playbtn" onclick="startPlay()" disabled>この配分で10年プレイ ▶</button>
     </div>
@@ -462,7 +464,7 @@ function renderAssets(){
       <div class="asset-head"><span class="swatch" style="background:${a.ac}"></span>
         <span class="asset-name">${a.nm}</span>${tag}</div>
       <div class="dice-faces">${a.faces.map(faceHtml).join('')}</div>
-      <div class="asset-mu">出目の平均 <b>${mean(a.faces)>0?'+':''}${mean(a.faces).toFixed(1)}%</b>　・　β <b style="color:#fca5a5">${a.beta.toFixed(1)}</b>${a.market?'（市場が下がると β倍 沈む）':'（市場と無関係）'}</div>
+      <div class="asset-mu">出目の平均 <b>${mean(a.faces)>0?'+':''}${mean(a.faces).toFixed(1)}%</b>　・　σ <b style="color:#fbbf24">${a.sig.toFixed(0)}</b>　・　β <b style="color:#fca5a5">${a.beta.toFixed(1)}</b></div>
       <div class="alloc">
         <button class="stepb" onclick="bump('${a.id}',-1)">−</button>
         <div class="tokens">${toks}</div>
@@ -493,6 +495,13 @@ function refreshBuild(){
   document.getElementById('s-eff').textContent=u? (mu>0?'+':'')+mu.toFixed(1)+'%':'—';
   document.getElementById('s-mk').textContent=u? 'β '+beta.toFixed(2):'—';
   document.getElementById('s-n').textContent=n;
+  // ポートフォリオσ（単一ファクター）とシャープレシオ
+  let specVar=0; ASSETS.forEach(a=>{const w=(alloc[a.id]||0)/TOKENS; specVar+=w*w*a.sig*a.sig;});
+  const sigmaP=Math.sqrt(specVar + beta*beta*SIG_M*SIG_M);
+  const RF=mean(A('BOND').faces);                  // 無リスク金利＝国債の期待リターン(=2.0%)
+  const sharpe=sigmaP>0?(mu-RF)/sigmaP:0;
+  document.getElementById('s-sigma').textContent=u? sigmaP.toFixed(1)+'%':'—';
+  document.getElementById('s-sharpe').textContent=u? sharpe.toFixed(2):'—';
   ASSETS.forEach(a=>{const el=document.getElementById('as-'+a.id);if(el)el.classList.toggle('on',alloc[a.id]>0);});
   document.getElementById('playbtn').disabled = u!==TOKENS;
   document.getElementById('hint').innerHTML=makeHint(u,n,beta,mu);

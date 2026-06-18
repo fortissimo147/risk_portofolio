@@ -183,6 +183,7 @@
         <div class="rl"><span>今年の予想ブレ幅 σ</span><span id="sigma-v">—</span></div>
         <div class="rdbar"><div class="rdseg rd-mk" id="seg-mk" style="width:0%"></div><div class="rdseg rd-sp" id="seg-sp" style="width:0%"></div></div>
         <div class="rdleg"><span><i class="rd-mk"></i>市場リスク(消せない)</span><span><i class="rd-sp"></i>個別リスク(分散で消える)</span></div>
+        <div class="rl" style="margin-top:8px"><span>シャープレシオ <span style="color:#64748b">=(実効リターン−国債2.0%)/σ</span></span><span id="sharpe-v" style="color:#a78bfa;font-weight:bold">—</span></div>
       </div>
 
       <button class="btn btn-go" id="rollbtn" onclick="rollYear()" disabled>🎲 サイコロを振って1年運用</button>
@@ -442,6 +443,8 @@ function renderAlloc(){
   const rd=riskDecomp(al);
   document.getElementById('exp-mk').textContent='β '+rd.beta.toFixed(2);
   document.getElementById('sigma-v').textContent=u?rd.sigma.toFixed(1)+'%':'—';
+  const RF=mean(byId('BOND').faces);               // 無リスク金利＝国債の期待リターン
+  document.getElementById('sharpe-v').textContent=(u&&rd.sigma>0)?((rd.mu-RF)/rd.sigma).toFixed(2):'—';
   if(rd.totVar>0){
     const mp=rd.mktVar/rd.totVar*100, sp=rd.specVar/rd.totVar*100;
     const sm=document.getElementById('seg-mk'),ss=document.getElementById('seg-sp');
