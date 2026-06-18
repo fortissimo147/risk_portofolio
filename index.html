@@ -155,8 +155,8 @@
   </div>
 
   <div class="key-q">
-    💡 この章の問い：<b>「卵を一つのカゴに盛るな」</b>は本当に得なのか？<br>
-    1社に全部賭けるのと、いろんな資産に散らすのと——平均では同じでも、<b>結果のブレ（リスク）はまるで違う</b>。それを自分の手で確かめよう。
+    💡 この章の問い：リスクを取るほど見返り（<b>リスクプレミアム</b>）は増える。国債だけでは安全だが増えない。<br>
+    でも<b>「卵を一つのカゴに盛るな」</b>——同じ見返りでも、<b>散らし方しだいで破産する確率（リスク）はまるで違う</b>。どう攻めて、どう守る？自分の手で確かめよう。
   </div>
 
   <details class="glossary">
@@ -198,7 +198,7 @@
     </div>
     <div class="ex-die">
       <div class="lbl">🔴 <b>テック</b>（攻め）— 目が大きく散らばる</div>
-      <div class="dice-faces"><span class="face neg">-28%</span><span class="face neg">-12%</span><span class="face neg">-1%</span><span class="face pos">+10%</span><span class="face pos">+22%</span><span class="face pos">+42%</span></div>
+      <div class="dice-faces"><span class="face neg">-26%</span><span class="face neg">-8%</span><span class="face pos">+3%</span><span class="face pos">+15%</span><span class="face pos">+29%</span><span class="face pos">+50%</span></div>
     </div>
   </div>
 
@@ -305,9 +305,9 @@
   </div>
 
   <div class="card">
-    <h3>3つのお手本戦略との比較（各2000回）</h3>
-    <div class="note">注目：<b>平均資産＝期待収益率はどれも近い</b>。違うのは破産率と<b>標準偏差（ブレ幅）＝リスク</b>だけ。同じ期待収益率なら、リスクの小さい方が賢い。</div>
-    <table class="cmp"><thead><tr><th>戦略</th><th>破産率</th><th>平均資産</th><th>中央値</th><th>ブレ幅(5〜95%)</th></tr></thead>
+    <h3>国債（安全資産）＆お手本戦略との比較（各2000回）</h3>
+    <div class="note">注目：<b>国債100%は破産0%だが増えない（プレミアム＝0）</b>。リスクを取るほど国債を超える<b>リスクプレミアム</b>が増える＝<b>リスクを取る見返り</b>。ただし全ベットは破産率が跳ね上がる。<b>分散</b>は、近いプレミアムをずっと低リスクで得る方法。</div>
+    <table class="cmp"><thead><tr><th>戦略</th><th>破産率</th><th>平均資産<br>（国債比/年）</th><th>中央値</th><th>ブレ幅(5〜95%)</th></tr></thead>
     <tbody id="cmp-body"></tbody></table>
   </div>
 
@@ -342,13 +342,13 @@
 // =====================================================================
 const ASSETS=[
  {id:'BOND', nm:'国債',       ac:'#3b82f6', faces:[-1,1,2,3,3,4],        market:false},
- {id:'GOLD', nm:'金',         ac:'#eab308', faces:[-11,-3,1,5,9,17],     market:false},
- {id:'FOOD', nm:'生活必需品', ac:'#22c55e', faces:[-10,-3,2,7,11,17],    market:true},
- {id:'ENRG', nm:'エネルギー', ac:'#f97316', faces:[-12,-4,2,8,12,18],    market:true},
- {id:'INDU', nm:'工業・素材', ac:'#94a3b8', faces:[-13,-4,2,8,13,18],    market:true},
- {id:'TECH', nm:'テック',     ac:'#ef4444', faces:[-28,-12,-1,10,22,42], market:true},
- {id:'FIN',  nm:'金融',       ac:'#a855f7', faces:[-30,-13,0,11,22,40],  market:true},
- {id:'BIO',  nm:'バイオ・新興',ac:'#ec4899', faces:[-38,-18,-3,12,30,57], market:true},
+ {id:'GOLD', nm:'金',         ac:'#eab308', faces:[-12,-3,2,7,12,22],     market:false},
+ {id:'FOOD', nm:'生活必需品', ac:'#22c55e', faces:[-9,-1,5,10,15,22],    market:true},
+ {id:'ENRG', nm:'エネルギー', ac:'#f97316', faces:[-11,-2,5,11,17,24],    market:true},
+ {id:'INDU', nm:'工業・素材', ac:'#94a3b8', faces:[-12,-2,5,12,18,25],    market:true},
+ {id:'TECH', nm:'テック',     ac:'#ef4444', faces:[-26,-8,3,15,29,50], market:true},
+ {id:'FIN',  nm:'金融',       ac:'#a855f7', faces:[-28,-10,4,16,28,46],  market:true},
+ {id:'BIO',  nm:'バイオ・新興',ac:'#ec4899', faces:[-36,-14,2,18,38,64], market:true},
 ];
 const MARKET_FACES=[-15,-7,-1,4,9,16];
 const P_CRASH=0.10, V_CRASH=-0.28;   // 大暴落
@@ -610,17 +610,23 @@ function renderDist(weights,single){
   // 比較
   const rows=[
     {key:'me', nm:'★ あなたの配分', w:weights, me:true},
+    {key:'BOND', nm:'🛡️ 国債100%（安全資産）', w:{BOND:6}},
     {key:'A', nm:'🔴 全ベット（テック）', w:PRESETS.A},
     {key:'B', nm:'🌈 株だけ分散', w:PRESETS.B},
     {key:'C', nm:'⚖️ バランス分散', w:PRESETS.C},
   ];
   let maxP95=0;
   rows.forEach(r=>{r.mc=montecarlo(r.w,2000);maxP95=Math.max(maxP95,r.mc.p95);});
+  const bondCagr=Math.pow(Math.max(rows.find(r=>r.key==='BOND').mc.mean,1)/100,1/YEARS)-1;
   document.getElementById('cmp-body').innerHTML=rows.map(r=>{
     const m=r.mc;const barL=v=>(v/maxP95*100);
+    const cagr=Math.pow(Math.max(m.mean,1)/100,1/YEARS)-1;
+    const prem=(cagr-bondCagr)*100;
+    const premTxt=r.key==='BOND'?'＝基準':`${prem>=0?'+':''}${prem.toFixed(1)}%`;
+    const premCol=r.key==='BOND'?'#94a3b8':(prem>0.1?'#4ade80':'#f87171');
     return `<tr class="${r.me?'me':''}"><td>${r.nm}</td>
       <td style="color:${m.bust>0.15?'#f87171':'#cbd5e1'}">${(m.bust*100).toFixed(0)}%</td>
-      <td>${m.mean.toFixed(0)}</td>
+      <td>${m.mean.toFixed(0)}<div style="font-size:.64rem;color:${premCol}">プレミアム ${premTxt}/年</div></td>
       <td style="color:#4ade80">${m.med.toFixed(0)}</td>
       <td><div class="rng"><div class="bar" style="left:${barL(m.p5)}%;width:${Math.max(2,barL(m.p95)-barL(m.p5))}%;background:${r.me?'#fbbf24':'#60a5fa'}"></div><div class="med" style="left:${barL(m.med)}%"></div></div></td></tr>`;
   }).join('');
@@ -662,17 +668,17 @@ function drawHist(mc){
   document.getElementById('hist').innerHTML=s;
 }
 function makeLesson(weights,mc,rows){
-  const A=rows.find(r=>r.key==='A').mc, B=rows.find(r=>r.key==='B').mc, C=rows.find(r=>r.key==='C').mc;
-  const means=[A.mean,B.mean,C.mean,mc.mean];
-  const muClose=Math.max(...means)-Math.min(...means);
+  const A=rows.find(r=>r.key==='A').mc, B=rows.find(r=>r.key==='B').mc, C=rows.find(r=>r.key==='C').mc, BOND=rows.find(r=>r.key==='BOND').mc;
+  const cagr=v=>(Math.pow(Math.max(v,1)/100,1/YEARS)-1)*100;
+  const bc=cagr(BOND.mean);
+  const prem=v=>(cagr(v)-bc);
   let s='';
-  s+=`💡 <b>平均資産はどの戦略もほぼ同じ</b>（全ベット${A.mean.toFixed(0)}・株分散${B.mean.toFixed(0)}・バランス${C.mean.toFixed(0)}）。`;
-  s+=`これは<b>期待収益率（期待リターン）がほぼ等しい</b>ことを意味します。違うのは結果の散らばり＝<b>標準偏差σ</b>と破産率——これこそ第7章でいう<b>リスク</b>です。<br><br>`;
-  s+=`🔴 全ベット（テック）は破産率<b>${(A.bust*100).toFixed(0)}%</b>。1社集中なので<b>個別リスク（固有リスク・分散可能リスク）</b>を丸かぶりし、結果が運に大きく振られます。`;
-  s+=`⚖️ バランス分散は破産率<b>${(C.bust*100).toFixed(0)}%</b>。<b>分散投資</b>で個別リスクを打ち消し、ほぼ同じ期待収益率をずっと安全に得ています。`;
-  s+=`🌈 株だけ分散は個別リスクは減っても、暴落という<b>市場リスク（システマティック・リスク／分散不能リスク）は分散で消えない</b>ため破産が残る（${(B.bust*100).toFixed(0)}%）。だから<b>リスクフリー資産</b>（国債）や金が"避難先"になります。<br><br>`;
-  s+=`📈 株が国債を上回って稼いだ超過分が<b>リスクプレミアム</b>。リスクを取るほど期待収益率は上がりますが、同時に標準偏差も上がる——表裏一体です。<br>`;
-  s+=`🎲 暴落は<b>いつ来るか分からない</b>ので、1回の結果は運。だから教科書も期待収益率の推定に100年超のデータを使います。<b>500回の分布こそ、その配分の本当の姿（リターンとリスク）</b>です。`;
+  s+=`🛡️ まず<b>国債100%</b>は破産0%で安全ですが、平均${BOND.mean.toFixed(0)}までしか増えません＝<b>リスクプレミアム＝0</b>。<b>リスクを取らなければ見返り（超過リターン）も無い</b>——だから全額を国債に置くのは正解ではありません。<br><br>`;
+  s+=`📈 リスクを取るほど、国債を超える<b>リスクプレミアム</b>が増えます（株だけ分散 約+${prem(B.mean).toFixed(1)}%/年、全ベット 約+${prem(A.mean).toFixed(1)}%/年）。これが<b>リスクを取る見返り</b>＝第7章の中心テーマです。<br><br>`;
+  s+=`⚠️ でも取り方が肝心。🔴 全ベット（テック）は平均こそ高いが破産率<b>${(A.bust*100).toFixed(0)}%</b>で<b>中央値（ふつうの結果）は${A.med.toFixed(0)}</b>。<b>個別リスク（固有リスク・分散可能リスク）</b>を丸かぶりし、運に大きく振られます。`;
+  s+=`🌈 株だけ分散は個別リスクこそ減りますが、暴落という<b>市場リスク（システマティック・リスク／分散不能リスク）は分散で消えない</b>ため破産が残る（${(B.bust*100).toFixed(0)}%）。`;
+  s+=`⚖️ バランス分散は、国債（<b>リスクフリー資産</b>）や金を混ぜて市場リスクを抑え、しっかりプレミアム（+${prem(C.mean).toFixed(1)}%/年）を取りつつ破産率<b>${(C.bust*100).toFixed(0)}%</b>。<b>同じくらいの見返りを、ずっと低いリスクで</b>得ています。<br><br>`;
+  s+=`🎲 暴落は<b>いつ来るか分からない</b>ので1回の結果は運。教科書も期待収益率の推定に100年超のデータを使うのは同じ理由。<b>500回の分布こそ、その配分の本当の姿（リターンとリスク）</b>です。`;
   return s;
 }
 
