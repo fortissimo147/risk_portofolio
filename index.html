@@ -193,12 +193,12 @@
     <h3>① すべての資産は「サイコロ」</h3>
     <p>株も国債も、<b>1年の成績はサイコロを1回振るようなもの</b>です。各資産は6面のサイコロを持ち、各面に「その年のリターン（％）」が書いてあります。どの面が出るかは運。</p>
     <div class="ex-die">
-      <div class="lbl">🛡️ <b>国債</b>（安全）— 目が小さくまとまっている</div>
+      <div class="lbl">🛡️ <b>国債</b>（安全・β0）— 目が小さくまとまっている</div>
       <div class="dice-faces"><span class="face neg">-1%</span><span class="face pos">+1%</span><span class="face pos">+2%</span><span class="face pos">+3%</span><span class="face pos">+3%</span><span class="face pos">+4%</span></div>
     </div>
     <div class="ex-die">
-      <div class="lbl">🔴 <b>テック</b>（攻め）— 目が大きく散らばる</div>
-      <div class="dice-faces"><span class="face neg">-26%</span><span class="face neg">-8%</span><span class="face pos">+3%</span><span class="face pos">+15%</span><span class="face pos">+29%</span><span class="face pos">+50%</span></div>
+      <div class="lbl">🔴 <b>テック</b>（攻め・β1.4）— 目が大きく散らばる</div>
+      <div class="dice-faces"><span class="face neg">-18%</span><span class="face neg">-4%</span><span class="face pos">+6%</span><span class="face pos">+14%</span><span class="face pos">+25%</span><span class="face pos">+44%</span></div>
     </div>
   </div>
 
@@ -211,24 +211,32 @@
 
   <div class="ex-card">
     <h3>③ 全員を襲う「市場のサイコロ」（<span class="term">市場リスク</span>）</h3>
-    <p>「市場連動」と書かれた株には、毎年もう1つ<b>🌐市場ダイスが全部の株に同時に乗ります</b>。好況なら全株プラス、暴落なら全株マイナス。これは1社だけの事情ではなく、市場全体の動き＝<span class="term">市場リスク（システマティック・リスク）</span>です。</p>
-    <p><b>国債と金はこの市場ダイスを受けません</b>。だから暴落のときの“避難先”になります。</p>
+    <p>「市場連動」と書かれた株には、毎年もう1つ<b>🌐市場ダイスが乗ります</b>。好況なら全株プラス、暴落なら全株マイナス。これは1社だけの事情ではなく、市場全体の動き＝<span class="term">市場リスク（システマティック・リスク）</span>です。</p>
+    <p><b>国債と金はこの市場ダイスを受けません</b>（β0）。だから暴落のときの“避難先”になります。</p>
+    <div class="ex-takeaway">📘 つまり1年の成績は <b>固有の出目（個別リスク）＋ β×市場ダイス（市場リスク）</b>。前半は分散で消え、後半は消えません。</div>
   </div>
 
   <div class="ex-card">
-    <h3>④ 分散投資＝「たくさんのサイコロの平均」</h3>
+    <h3>④ 市場の効き方は資産ごとに違う（<span class="term">ベータ β</span>）</h3>
+    <p>同じ市場ダイスでも、<b>効く強さは資産ごとに違います</b>。これが<span class="term">ベータ（β）</span>＝市場が1%動くとき、その資産が平均何%動くか。</p>
+    <p>🔴 テックは<b>β1.4</b>＝市場の1.4倍動く（暴落で大きく沈む）。🟢 生活必需品は<b>β0.4</b>＝市場の0.4倍しか動かない（暴落に強い）。🛡️ 国債・金は<b>β0</b>。</p>
+    <p>そして<b>高βほど、平常時の期待リターンも高い</b>——大きな市場リスクを引き受ける見返りです（＝βに比例した<span class="term">リスクプレミアム</span>）。配分パネルの「ポートフォリオβ」は、持っている資産のβの加重平均です。</p>
+  </div>
+
+  <div class="ex-card">
+    <h3>⑤ 分散投資＝「たくさんのサイコロの平均」</h3>
     <p>トークン6個を複数の資産に分けるのは、<b>複数のサイコロを同時に振って平均する</b>こと。1個に全部賭けると運命は1個のサイコロ任せで乱高下。たくさんに分けると、<b>悪い目と良い目が打ち消し合って結果が真ん中に寄り</b>、ばらつき（σ）が縮みます。</p>
     <div class="ex-takeaway">🥚 これが「卵を一つのカゴに盛るな」＝<b>分散投資</b>。同じ平均リターンのまま、リスク（σ）だけを下げられます。</div>
   </div>
 
   <div class="ex-card">
-    <h3>⑤ でも「消えないリスク」がある</h3>
+    <h3>⑥ でも「消えないリスク」がある</h3>
     <p>各サイコロ固有のばらつき＝<span class="term">個別リスク（固有リスク・分散可能リスク）</span>は、たくさん振れば平均で消えます。</p>
     <p>でも<b>🌐市場ダイスは全部の株に同じように乗る</b>ので、何種類に分けても消えません＝<span class="term">市場リスク（分散不能リスク）</span>。だから<b>株だけに分散しても暴落は丸かぶり</b>。国債・金を混ぜて初めて市場リスクを減らせます。</p>
   </div>
 
   <div class="ex-card">
-    <h3>⑥ 暴落は「いつ来るか分からない」</h3>
+    <h3>⑦ 暴落は「いつ来るか分からない」</h3>
     <p>毎年ランダムに、低い確率で暴落・調整が起きます。「来年来る」と前もって分かりません。だから<b>1回の結果は運</b>。たまたま勝っても実力とは限らない。</p>
     <p><b>同じ配分で人生を500回くり返した“分布”</b>こそが、その配分の本当の姿（リターンとリスク）です。教科書も、期待収益率の推定に100年超のデータを使うのは同じ理由です。</p>
     <div class="ex-takeaway">🎯 勝ち負けより大事なこと：平均（リターン）が同じでも、<b>σ（リスク）と破産率が違う</b>。同じ儲けなら、ブレが小さい方が賢い——それが分散投資です。</div>
@@ -259,7 +267,7 @@
       <div class="tokbar"><div class="f" id="tokfill" style="width:0%"></div></div>
       <div class="toklab"><span>使用 <b id="usedtok">0</b>/6</span><span id="remtok">残り6</span></div>
       <div class="stat"><span class="k">期待リターン（年・平均）<span class="gloss">教科書：<b>期待収益率</b>（算術平均）</span></span><span class="v" id="s-mu" style="color:#4ade80">—</span></div>
-      <div class="stat"><span class="k">市場リスクへの露出<span class="gloss">教科書：<b>システマティック・リスク／β</b></span></span><span class="v" id="s-mk" style="color:#fca5a5">—</span></div>
+      <div class="stat"><span class="k">ポートフォリオ β<span class="gloss">教科書：<b>市場感応度（システマティック・リスク）</b>。市場が1%動くと平均何%動くか</span></span><span class="v" id="s-mk" style="color:#fca5a5">—</span></div>
       <div class="stat"><span class="k">分けた資産の数<span class="gloss">多いほど<b>個別リスク</b>が分散で消える</span></span><span class="v" id="s-n" style="color:#93c5fd">0</span></div>
       <div class="hint" id="hint">トークンを置くとアドバイスが出ます。</div>
       <button class="btn" id="playbtn" onclick="startPlay()" disabled>この配分で10年プレイ ▶</button>
@@ -341,14 +349,14 @@
 //  ・暴落はメモリレス（毎年独立確率）    ・複利、破産ライン40
 // =====================================================================
 const ASSETS=[
- {id:'BOND', nm:'国債',       ac:'#3b82f6', faces:[-1,1,2,3,3,4],        market:false},
- {id:'GOLD', nm:'金',         ac:'#eab308', faces:[-12,-3,2,7,12,22],     market:false},
- {id:'FOOD', nm:'生活必需品', ac:'#22c55e', faces:[-9,-1,5,10,15,22],    market:true},
- {id:'ENRG', nm:'エネルギー', ac:'#f97316', faces:[-11,-2,5,11,17,24],    market:true},
- {id:'INDU', nm:'工業・素材', ac:'#94a3b8', faces:[-12,-2,5,12,18,25],    market:true},
- {id:'TECH', nm:'テック',     ac:'#ef4444', faces:[-26,-8,3,15,29,50], market:true},
- {id:'FIN',  nm:'金融',       ac:'#a855f7', faces:[-28,-10,4,16,28,46],  market:true},
- {id:'BIO',  nm:'バイオ・新興',ac:'#ec4899', faces:[-36,-14,2,18,38,64], market:true},
+ {id:'BOND', nm:'国債',       ac:'#3b82f6', beta:0.0, faces:[-1,1,2,3,3,4],         market:false},
+ {id:'GOLD', nm:'金',         ac:'#eab308', beta:0.0, faces:[-13,-4,1,5,11,21],     market:false},
+ {id:'FOOD', nm:'生活必需品', ac:'#22c55e', beta:0.4, faces:[-8,-1,4,7,10,16],      market:true},
+ {id:'ENRG', nm:'エネルギー', ac:'#f97316', beta:0.8, faces:[-10,0,5,9,14,25],      market:true},
+ {id:'INDU', nm:'工業・素材', ac:'#94a3b8', beta:1.0, faces:[-10,1,6,11,16,28],     market:true},
+ {id:'TECH', nm:'テック',     ac:'#ef4444', beta:1.4, faces:[-18,-4,6,14,25,44],    market:true},
+ {id:'FIN',  nm:'金融',       ac:'#a855f7', beta:1.2, faces:[-14,-2,6,13,21,35],    market:true},
+ {id:'BIO',  nm:'バイオ・新興',ac:'#ec4899', beta:1.8, faces:[-24,-7,5,17,32,57],    market:true},
 ];
 const MARKET_FACES=[-15,-7,-1,4,9,16];
 const P_CRASH=0.10, V_CRASH=-0.28;   // 大暴落
@@ -356,6 +364,8 @@ const P_CORR =0.12, V_CORR =-0.13;   // 調整
 const P_SHOCK=0.13, V_SHOCK=-0.20;   // 個別ショック（株1種）
 const P_BOOM =0.11, V_BOOM =0.20;    // 個別ブーム（株1種）
 const YEARS=10, START=100, FLOOR=40, TOKENS=6;
+// 市場ダイス＋暴落の「年あたり平均寄与」(β=1の資産1単位あたり, %)。実効期待リターン＝出目平均＋β×これ
+const MKT_ADJ = mean(MARKET_FACES) + (P_CRASH*V_CRASH + P_CORR*V_CORR)*100;
 
 const A=o=>ASSETS.find(a=>a.id===o);
 const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
@@ -389,7 +399,7 @@ function yearReturn(weights){
     if(w===0) return;
     let ar=pick(a.faces)/100;
     if(a.market){
-      ar+=m+regime;
+      ar+=a.beta*(m+regime);                 // 市場リスクはβ倍で効く（単一ファクターモデル）
       if(evType==='shock'&&evId===a.id) ar+=V_SHOCK;
       if(evType==='boom' &&evId===a.id) ar+=V_BOOM;
     }
@@ -439,7 +449,7 @@ function renderAssets(){
       <div class="asset-head"><span class="swatch" style="background:${a.ac}"></span>
         <span class="asset-name">${a.nm}</span>${tag}</div>
       <div class="dice-faces">${a.faces.map(faceHtml).join('')}</div>
-      <div class="asset-mu">平均リターン <b>${mean(a.faces)>0?'+':''}${mean(a.faces).toFixed(1)}%</b>／年</div>
+      <div class="asset-mu">出目の平均 <b>${mean(a.faces)>0?'+':''}${mean(a.faces).toFixed(1)}%</b>　・　β <b style="color:#fca5a5">${a.beta.toFixed(1)}</b>${a.market?'（市場が下がると β倍 沈む）':'（市場と無関係）'}</div>
       <div class="alloc">
         <button class="stepb" onclick="bump('${a.id}',-1)">−</button>
         <div class="tokens">${toks}</div>
@@ -458,29 +468,30 @@ function bump(id,d){
   alloc[id]=v; renderAssets();
 }
 function applyPreset(p){ASSETS.forEach(a=>alloc[a.id]=0);Object.entries(PRESETS[p]).forEach(([k,v])=>alloc[k]=v);renderAssets();}
-function portfolioMu(weights){let mu=0,mk=0;ASSETS.forEach(a=>{const w=(weights[a.id]||0)/TOKENS;mu+=w*mean(a.faces);if(a.market)mk+=w;});return{mu,mk};}
+function portfolioMu(weights){let mu=0,beta=0;ASSETS.forEach(a=>{const w=(weights[a.id]||0)/TOKENS;const eff=mean(a.faces)+(a.market?a.beta*MKT_ADJ:0);mu+=w*eff;beta+=w*a.beta;});return{mu,beta};}
 function refreshBuild(){
   const u=used();
   document.getElementById('tokfill').style.width=(u/TOKENS*100)+'%';
   document.getElementById('usedtok').textContent=u;
   document.getElementById('remtok').textContent='残り'+(TOKENS-u);
-  const {mu,mk}=portfolioMu(alloc);
+  const {mu,beta}=portfolioMu(alloc);
   const n=ASSETS.filter(a=>alloc[a.id]>0).length;
   document.getElementById('s-mu').textContent=u? (mu>0?'+':'')+mu.toFixed(1)+'%':'—';
-  document.getElementById('s-mk').textContent=u? Math.round(mk*100)+'%':'—';
+  document.getElementById('s-mk').textContent=u? 'β '+beta.toFixed(2):'—';
   document.getElementById('s-n').textContent=n;
   ASSETS.forEach(a=>{const el=document.getElementById('as-'+a.id);if(el)el.classList.toggle('on',alloc[a.id]>0);});
   document.getElementById('playbtn').disabled = u!==TOKENS;
-  document.getElementById('hint').innerHTML=makeHint(u,n,mk,mu);
+  document.getElementById('hint').innerHTML=makeHint(u,n,beta,mu);
 }
-function makeHint(u,n,mk,mu){
+function makeHint(u,n,beta,mu){
   if(u===0)return 'トークンを置くとアドバイスが出ます。';
   if(u<TOKENS)return `あと<b>${TOKENS-u}個</b>置いてください（6個全部で運用開始）。`;
   if(n===1)return '⚠️ 1資産に全集中。<b>個別リスク（固有リスク・分散可能リスク）</b>が大きく、結果が乱高下します。散らすと消せます。';
   const allStock=ASSETS.filter(a=>alloc[a.id]>0).every(a=>a.market);
-  if(allStock&&n>=4)return `🌈 株だけに${n}分散。個別リスクは減りますが、<b>市場リスク（システマティック・リスク）露出${Math.round(mk*100)}%</b>のまま。暴落は丸かぶりです。国債や金は混ぜましたか？`;
-  if(mk<=0.5)return `🛡️ 市場リスク露出が${Math.round(mk*100)}%と低め。暴落に強い守りの形。期待リターンは控えめ（${mu.toFixed(1)}%）。`;
-  return `✅ 株と守り(国債・金)のバランス型。市場露出${Math.round(mk*100)}%。500回試して破産率を確かめよう。`;
+  if(allStock&&n>=4)return `🌈 株だけに${n}分散。個別リスクは減りますが、<b>ポートフォリオβ＝${beta.toFixed(2)}</b>の市場リスクは残ったまま。暴落は丸かぶりです。国債や金（β0）は混ぜましたか？`;
+  if(beta<=0.6)return `🛡️ ポートフォリオβ＝${beta.toFixed(2)}と低め。暴落に強い守りの形。期待リターンも控えめ（${mu.toFixed(1)}%）。`;
+  if(beta>=1.3)return `🔥 ポートフォリオβ＝${beta.toFixed(2)}と高め。市場が上げれば大きく勝てますが、暴落では市場の${beta.toFixed(1)}倍沈みます。`;
+  return `✅ 株と守り(国債・金)のバランス型。β＝${beta.toFixed(2)}。500回試して破産率を確かめよう。`;
 }
 function goBuild(){stopAuto();renderAssets();show('build');}
 
@@ -595,7 +606,7 @@ function renderDist(weights,single){
     <div class="bs"><div class="v" style="color:${single.bust?'#f87171':(single.final>=START?'#4ade80':'#fbbf24')}">${single.bust?'破産':single.final.toFixed(0)}</div><div class="l">10年後の資産</div></div>
     <div class="bs"><div class="v">${single.bust?'0.00':mult.toFixed(2)}倍</div><div class="l">元手100から</div></div>
     <div class="bs"><div class="v" style="color:#93c5fd">${ASSETS.filter(a=>weights[a.id]>0).length}</div><div class="l">分けた資産数</div></div>
-    <div class="bs"><div class="v" style="color:#fca5a5">${Math.round(portfolioMu(weights).mk*100)}%</div><div class="l">市場リスク露出（β）</div></div>`;
+    <div class="bs"><div class="v" style="color:#fca5a5">${portfolioMu(weights).beta.toFixed(2)}</div><div class="l">ポートフォリオ β</div></div>`;
 
   // 500回
   const mc=montecarlo(weights,500);
@@ -632,7 +643,7 @@ function renderDist(weights,single){
   }).join('');
 
   document.getElementById('lesson-text').innerHTML=makeLesson(weights,mc,rows);
-  document.getElementById('dist-sub').textContent=`市場リスク露出 ${Math.round(portfolioMu(weights).mk*100)}% ／ 500回試行`;
+  document.getElementById('dist-sub').textContent=`ポートフォリオβ ${portfolioMu(weights).beta.toFixed(2)} ／ 500回試行`;
 }
 function drawHist(mc){
   const W=600,H=240,pL=34,pR=12,pT=14,pB=34;
