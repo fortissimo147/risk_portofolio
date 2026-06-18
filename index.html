@@ -91,6 +91,16 @@
   .card{background:#15203a;border:1px solid #2a3a5c;border-radius:14px;padding:18px;margin-bottom:16px}
   .card h3{font-size:.92rem;color:#e2e8f0;margin-bottom:3px}
   .card .note{font-size:.74rem;color:#64748b;margin-bottom:12px}
+  /* しくみ解説 */
+  .ex-card{background:#15203a;border:1px solid #2a3a5c;border-radius:14px;padding:18px;margin-bottom:14px}
+  .ex-card h3{font-size:1rem;color:#60a5fa;margin-bottom:8px}
+  .ex-card p{font-size:.88rem;color:#cbd5e1;margin-bottom:8px}
+  .ex-card p b{color:#fff}
+  .ex-card .term{color:#fbbf24;font-weight:bold}
+  .ex-die{margin:10px 0;padding:10px 12px;background:#0b1220;border-radius:10px;border:1px solid #2a3a5c}
+  .ex-die .lbl{font-size:.78rem;color:#94a3b8;margin-bottom:6px}
+  .ex-die .lbl b{color:#e2e8f0}
+  .ex-takeaway{background:#0f2744;border-left:4px solid #fbbf24;border-radius:0 8px 8px 0;padding:10px 12px;font-size:.84rem;color:#fde68a;margin-top:8px}
   #hist{width:100%;height:auto}
   .bigstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
   .bs{background:#0b1220;border:1px solid #2a3a5c;border-radius:10px;padding:10px;text-align:center}
@@ -165,8 +175,68 @@
     </table>
   </details>
 
-  <button class="btn" onclick="goBuild()">はじめる</button>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <button class="btn" onclick="goBuild()">はじめる</button>
+    <button class="btn btn-ghost" onclick="show('howto')">📖 ゲームの仕組みを読む</button>
+  </div>
   <p style="margin-top:18px;font-size:.82rem"><a href="board-game.html" style="color:#60a5fa;text-decoration:none">🎲 AIと10ターン対戦する「ボードゲーム版」はこちら →</a></p>
+</div>
+
+<!-- HOWTO（しくみ解説） -->
+<div id="howto" class="screen">
+  <div class="top-bar">
+    <div><h2>📖 このゲームの仕組み</h2><div class="sub">なぜ「サイコロ」で投資が学べるのか</div></div>
+    <button class="btn btn-ghost" style="padding:9px 16px;font-size:.82rem" onclick="show('intro')">← もどる</button>
+  </div>
+
+  <div class="ex-card">
+    <h3>① すべての資産は「サイコロ」</h3>
+    <p>株も国債も、<b>1年の成績はサイコロを1回振るようなもの</b>です。各資産は6面のサイコロを持ち、各面に「その年のリターン（％）」が書いてあります。どの面が出るかは運。</p>
+    <div class="ex-die">
+      <div class="lbl">🛡️ <b>国債</b>（安全）— 目が小さくまとまっている</div>
+      <div class="dice-faces"><span class="face neg">-1%</span><span class="face pos">+1%</span><span class="face pos">+2%</span><span class="face pos">+3%</span><span class="face pos">+3%</span><span class="face pos">+4%</span></div>
+    </div>
+    <div class="ex-die">
+      <div class="lbl">🔴 <b>テック</b>（攻め）— 目が大きく散らばる</div>
+      <div class="dice-faces"><span class="face neg">-28%</span><span class="face neg">-12%</span><span class="face neg">-1%</span><span class="face pos">+10%</span><span class="face pos">+22%</span><span class="face pos">+42%</span></div>
+    </div>
+  </div>
+
+  <div class="ex-card">
+    <h3>② 目のばらつき＝リスク（<span class="term">標準偏差 σ</span>）</h3>
+    <p>国債は目が小さくまとまっていて安全。テックは −28% 〜 +42% と大きく散らばっていて危険。この<b>「散らばり具合」を数字にしたのが標準偏差σ</b>です。σが大きいほどハイリスク。</p>
+    <p>一方、6つの面の<b>平均</b>が<span class="term">期待リターン（期待収益率）</span>。攻める資産ほど平均は高いけれど散らばりも大きい——これが<b>ハイリスク・ハイリターン</b>です。</p>
+    <div class="ex-takeaway">📘 ばらつき＝<b>標準偏差σ＝リスク</b>／面の平均＝<b>期待収益率＝リターン</b></div>
+  </div>
+
+  <div class="ex-card">
+    <h3>③ 全員を襲う「市場のサイコロ」（<span class="term">市場リスク</span>）</h3>
+    <p>「市場連動」と書かれた株には、毎年もう1つ<b>🌐市場ダイスが全部の株に同時に乗ります</b>。好況なら全株プラス、暴落なら全株マイナス。これは1社だけの事情ではなく、市場全体の動き＝<span class="term">市場リスク（システマティック・リスク）</span>です。</p>
+    <p><b>国債と金はこの市場ダイスを受けません</b>。だから暴落のときの“避難先”になります。</p>
+  </div>
+
+  <div class="ex-card">
+    <h3>④ 分散投資＝「たくさんのサイコロの平均」</h3>
+    <p>トークン6個を複数の資産に分けるのは、<b>複数のサイコロを同時に振って平均する</b>こと。1個に全部賭けると運命は1個のサイコロ任せで乱高下。たくさんに分けると、<b>悪い目と良い目が打ち消し合って結果が真ん中に寄り</b>、ばらつき（σ）が縮みます。</p>
+    <div class="ex-takeaway">🥚 これが「卵を一つのカゴに盛るな」＝<b>分散投資</b>。同じ平均リターンのまま、リスク（σ）だけを下げられます。</div>
+  </div>
+
+  <div class="ex-card">
+    <h3>⑤ でも「消えないリスク」がある</h3>
+    <p>各サイコロ固有のばらつき＝<span class="term">個別リスク（固有リスク・分散可能リスク）</span>は、たくさん振れば平均で消えます。</p>
+    <p>でも<b>🌐市場ダイスは全部の株に同じように乗る</b>ので、何種類に分けても消えません＝<span class="term">市場リスク（分散不能リスク）</span>。だから<b>株だけに分散しても暴落は丸かぶり</b>。国債・金を混ぜて初めて市場リスクを減らせます。</p>
+  </div>
+
+  <div class="ex-card">
+    <h3>⑥ 暴落は「いつ来るか分からない」</h3>
+    <p>毎年ランダムに、低い確率で暴落・調整が起きます。「来年来る」と前もって分かりません。だから<b>1回の結果は運</b>。たまたま勝っても実力とは限らない。</p>
+    <p><b>同じ配分で人生を500回くり返した“分布”</b>こそが、その配分の本当の姿（リターンとリスク）です。教科書も、期待収益率の推定に100年超のデータを使うのは同じ理由です。</p>
+    <div class="ex-takeaway">🎯 勝ち負けより大事なこと：平均（リターン）が同じでも、<b>σ（リスク）と破産率が違う</b>。同じ儲けなら、ブレが小さい方が賢い——それが分散投資です。</div>
+  </div>
+
+  <div style="text-align:center;margin-top:6px">
+    <button class="btn" onclick="goBuild()">さっそく試す ▶</button>
+  </div>
 </div>
 
 <!-- BUILD -->
