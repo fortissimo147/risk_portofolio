@@ -132,6 +132,10 @@
   .gtab td:last-child{color:#94a3b8;font-size:.76rem}
   .termcard{background:#0f2744;border-left:4px solid #60a5fa;border-radius:0 8px 8px 0;padding:10px 12px;font-size:.8rem;color:#cbd5e1;margin:12px 0}
   .termcard b{color:#93c5fd}
+  .keycard{background:linear-gradient(135deg,#1e293b,#15203a);border:2px solid #fbbf24;border-radius:12px;padding:14px 16px;margin:12px 0 16px}
+  .keycard .kc-t{font-size:.92rem;font-weight:bold;color:#fbbf24;margin-bottom:6px}
+  .keycard p{font-size:.86rem;color:#e2e8f0;margin:0}
+  .keycard b{color:#fff}
 
   @media(max-width:780px){.build-layout{grid-template-columns:1fr}.panel{position:static}.asset-grid{grid-template-columns:1fr}.bigstats{grid-template-columns:1fr 1fr}}
 </style>
@@ -260,6 +264,12 @@
     <button class="preset" onclick="applyPreset('0')">クリア</button>
   </div>
   <div class="termcard">📌 <b>国債</b>＝リスクフリー資産（安全資産）。株が国債を上回って稼ぐ超過分が<b>リスクプレミアム</b>。「<b>市場連動</b>」の資産は暴落＝<b>市場リスク（システマティック・リスク）</b>を共有し、これは何種類に分けても消えません。一方「市場と無関係」な国債・金は、その避難先になります。</div>
+
+  <div class="keycard">
+    <div class="kc-t">🎲 これが一番大事なルール</div>
+    <p>あなたは毎年、投資トークン＝<b>サイコロを6個</b>えらんで振ります。下に並ぶ<b>各資産が、その「サイコロ」</b>です（6つの面＝起こりうる1年のリターン）。<br>
+    <b>6個をどの資産に何個ずつ置くか＝「配分」を決めてください。</b>多く置いた資産ほど、その年の結果への影響が大きくなります。さあ、6個を振り分けましょう。</p>
+  </div>
   <div class="build-layout">
     <div class="asset-grid" id="asset-grid"></div>
     <div class="panel">
