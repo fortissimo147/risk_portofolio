@@ -364,12 +364,12 @@ const P_CORR =0.12, V_CORR =-0.13;   // 調整
 const P_SHOCK=0.13, V_SHOCK=-0.20;   // 個別ショック（株1種）
 const P_BOOM =0.11, V_BOOM =0.20;    // 個別ブーム（株1種）
 const YEARS=10, START=100, FLOOR=40, TOKENS=6;
-// 市場ダイス＋暴落の「年あたり平均寄与」(β=1の資産1単位あたり, %)。実効期待リターン＝出目平均＋β×これ
-const MKT_ADJ = mean(MARKET_FACES) + (P_CRASH*V_CRASH + P_CORR*V_CORR)*100;
 
 const A=o=>ASSETS.find(a=>a.id===o);
 const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
 const pick=a=>a[(Math.random()*a.length)|0];
+// 市場ダイス＋暴落の「年あたり平均寄与」(β=1の資産1単位あたり, %)。実効期待リターン＝出目平均＋β×これ
+const MKT_ADJ = mean(MARKET_FACES) + (P_CRASH*V_CRASH + P_CORR*V_CORR)*100;
 
 let alloc={}; ASSETS.forEach(a=>alloc[a.id]=0);
 const PRESETS={
