@@ -276,7 +276,7 @@
       <h3>あなたの配分</h3>
       <div class="tokbar"><div class="f" id="tokfill" style="width:0%"></div></div>
       <div class="toklab"><span>使用 <b id="usedtok">0</b>/6</span><span id="remtok">残り6</span></div>
-      <div class="stat"><span class="k">期待リターン（年・平均）<span class="gloss">教科書：<b>期待収益率</b>（算術平均）</span></span><span class="v" id="s-mu" style="color:#4ade80">—</span></div>
+      <div class="stat"><span class="k">出目の平均リターン（年）<span class="gloss">市場リスク込みの実効<b>期待収益率</b>は <b id="s-eff" style="color:#4ade80">—</b>（出目 − β×暴落ドラッグ）</span></span><span class="v" id="s-mu" style="color:#4ade80">—</span></div>
       <div class="stat"><span class="k">ポートフォリオ β<span class="gloss">教科書：<b>市場感応度（システマティック・リスク）</b>。市場が1%動くと平均何%動くか</span></span><span class="v" id="s-mk" style="color:#fca5a5">—</span></div>
       <div class="stat"><span class="k">分けた資産の数<span class="gloss">多いほど<b>個別リスク</b>が分散で消える</span></span><span class="v" id="s-n" style="color:#93c5fd">0</span></div>
       <div class="hint" id="hint">トークンを置くとアドバイスが出ます。</div>
@@ -481,15 +481,16 @@ function bump(id,d){
   alloc[id]=v; renderAssets();
 }
 function applyPreset(p){ASSETS.forEach(a=>alloc[a.id]=0);Object.entries(PRESETS[p]).forEach(([k,v])=>alloc[k]=v);renderAssets();}
-function portfolioMu(weights){let mu=0,beta=0;ASSETS.forEach(a=>{const w=(weights[a.id]||0)/TOKENS;const eff=mean(a.faces)+(a.market?a.beta*MKT_ADJ:0);mu+=w*eff;beta+=w*a.beta;});return{mu,beta};}
+function portfolioMu(weights){let faceMu=0,mu=0,beta=0;ASSETS.forEach(a=>{const w=(weights[a.id]||0)/TOKENS;const fm=mean(a.faces);faceMu+=w*fm;mu+=w*(fm+(a.market?a.beta*MKT_ADJ:0));beta+=w*a.beta;});return{faceMu,mu,beta};}
 function refreshBuild(){
   const u=used();
   document.getElementById('tokfill').style.width=(u/TOKENS*100)+'%';
   document.getElementById('usedtok').textContent=u;
   document.getElementById('remtok').textContent='残り'+(TOKENS-u);
-  const {mu,beta}=portfolioMu(alloc);
+  const {faceMu,mu,beta}=portfolioMu(alloc);
   const n=ASSETS.filter(a=>alloc[a.id]>0).length;
-  document.getElementById('s-mu').textContent=u? (mu>0?'+':'')+mu.toFixed(1)+'%':'—';
+  document.getElementById('s-mu').textContent=u? (faceMu>0?'+':'')+faceMu.toFixed(1)+'%':'—';
+  document.getElementById('s-eff').textContent=u? (mu>0?'+':'')+mu.toFixed(1)+'%':'—';
   document.getElementById('s-mk').textContent=u? 'β '+beta.toFixed(2):'—';
   document.getElementById('s-n').textContent=n;
   ASSETS.forEach(a=>{const el=document.getElementById('as-'+a.id);if(el)el.classList.toggle('on',alloc[a.id]>0);});
