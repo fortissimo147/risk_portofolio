@@ -466,8 +466,9 @@ function makeNote(rd,u){
   if(u<TOKENS) return 'トークンを6個すべて置くと運用できます。';
   const n=ASSETS.filter(a=>(G.you.alloc[a.id]||0)>0).length;
   const specShare=rd.totVar>0?rd.specVar/rd.totVar:0;
+  if(rd.beta<0.2) return '🛡️ ほぼ安全資産だけ＝とても安全ですが、<b>リターンも最低</b>。これでは老後資金150には届きにくい。少し株を混ぜると期待リターンが上がります。';
   if(n===1) return '⚠️ 1社集中。σが大きく、<b>個別リスク（緑）</b>だらけ。散らせば緑は消せます。';
-  if(specShare>0.4) return `🔬 リスクの${Math.round(specShare*100)}%が<b>個別リスク</b>。もう数種に広げると緑が縮みます。`;
+  if(specShare>0.5) return `🔬 リスクの${Math.round(specShare*100)}%が<b>個別リスク</b>。もう数種に広げると緑が縮みます。`;
   if(rd.beta<0.6) return `🛡️ ポートフォリオβ＝${rd.beta.toFixed(2)}と低め。暴落に強いが、150に届く力（リターン）も控えめ。`;
   if(rd.sigma>16) return `🔥 σ${rd.sigma.toFixed(0)}%と高め。大きく勝てるが暴落で破産も。<b>市場リスク（赤）は分散で消せません</b>。`;
   return `✅ 個別リスクはよく分散。残る<b>赤＝市場リスク</b>が、何があっても残るブレ幅です。`;

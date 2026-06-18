@@ -232,7 +232,7 @@
   <div class="ex-card">
     <h3>⑥ でも「消えないリスク」がある</h3>
     <p>各サイコロ固有のばらつき＝<span class="term">個別リスク（固有リスク・分散可能リスク）</span>は、たくさん振れば平均で消えます。</p>
-    <p>でも<b>🌐市場ダイスは全部の株に同じように乗る</b>ので、何種類に分けても消えません＝<span class="term">市場リスク（分散不能リスク）</span>。だから<b>株だけに分散しても暴落は丸かぶり</b>。国債・金を混ぜて初めて市場リスクを減らせます。</p>
+    <p>でも<b>🌐市場ダイスは全部の株に共通して乗る</b>（高βほど強く効く）ので、何種類に分けても消えません＝<span class="term">市場リスク（分散不能リスク）</span>。だから<b>株だけに分散しても暴落は丸かぶり</b>。国債・金（β0）を混ぜて初めて市場リスクを減らせます。</p>
   </div>
 
   <div class="ex-card">
@@ -367,9 +367,12 @@ const YEARS=10, START=100, FLOOR=40, TOKENS=6;
 
 const A=o=>ASSETS.find(a=>a.id===o);
 const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
+const std=a=>{const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/a.length);};
 const pick=a=>a[(Math.random()*a.length)|0];
 // 市場ダイス＋暴落の「年あたり平均寄与」(β=1の資産1単位あたり, %)。実効期待リターン＝出目平均＋β×これ
 const MKT_ADJ = mean(MARKET_FACES) + (P_CRASH*V_CRASH + P_CORR*V_CORR)*100;
+const SIG_M = std(MARKET_FACES);                 // 市場ダイスの標準偏差
+ASSETS.forEach(a=>a.sig=std(a.faces));           // 各資産の固有(出目)σ
 
 let alloc={}; ASSETS.forEach(a=>alloc[a.id]=0);
 const PRESETS={
@@ -486,12 +489,18 @@ function refreshBuild(){
 function makeHint(u,n,beta,mu){
   if(u===0)return 'トークンを置くとアドバイスが出ます。';
   if(u<TOKENS)return `あと<b>${TOKENS-u}個</b>置いてください（6個全部で運用開始）。`;
-  if(n===1)return '⚠️ 1資産に全集中。<b>個別リスク（固有リスク・分散可能リスク）</b>が大きく、結果が乱高下します。散らすと消せます。';
-  const allStock=ASSETS.filter(a=>alloc[a.id]>0).every(a=>a.market);
-  if(allStock&&n>=4)return `🌈 株だけに${n}分散。個別リスクは減りますが、<b>ポートフォリオβ＝${beta.toFixed(2)}</b>の市場リスクは残ったまま。暴落は丸かぶりです。国債や金（β0）は混ぜましたか？`;
-  if(beta<=0.6)return `🛡️ ポートフォリオβ＝${beta.toFixed(2)}と低め。暴落に強い守りの形。期待リターンも控えめ（${mu.toFixed(1)}%）。`;
-  if(beta>=1.3)return `🔥 ポートフォリオβ＝${beta.toFixed(2)}と高め。市場が上げれば大きく勝てますが、暴落では市場の${beta.toFixed(1)}倍沈みます。`;
-  return `✅ 株と守り(国債・金)のバランス型。β＝${beta.toFixed(2)}。500回試して破産率を確かめよう。`;
+  // リスク分解: 個別リスク(specVar)と市場リスク(β²σ_m²)、安全資産(国債・金)の割合
+  let specVar=0, safeW=0;
+  ASSETS.forEach(a=>{const w=(alloc[a.id]||0)/TOKENS; specVar+=w*w*a.sig*a.sig; if(!a.market) safeW+=w;});
+  const mktVar=beta*beta*SIG_M*SIG_M;
+  const totVar=specVar+mktVar; const specShare=totVar>0?specVar/totVar:0;
+  if(beta<0.2)return `🛡️ ほぼ国債・金だけ＝とても安全ですが、<b>リターンも最低（リスクプレミアムをほぼ取れていない）</b>。少し株を混ぜると期待リターンが上がります（その分リスクも）。`;
+  if(n===1)return '⚠️ 1資産に全集中。総リスクの大半が<b>個別リスク（固有リスク・分散可能リスク）</b>。散らすと消せます。';
+  if(specShare>0.5)return `🔬 リスクの<b>${Math.round(specShare*100)}%がまだ個別リスク</b>（分散で消せる）。いまは${n}種——あと数種に広げると縮みます。`;
+  if(safeW===0)return `🌐 個別リスクはほぼ分散済み。でも全額が市場連動で、<b>市場リスク（β＝${beta.toFixed(2)}）</b>が残ります（暴落で市場の約${beta.toFixed(1)}倍沈む）。国債・金（β0）を混ぜると市場リスクも下げられます。`;
+  if(beta>=1.3)return `🔥 <b>ポートフォリオβ＝${beta.toFixed(2)}</b>と高め。好況で大きく勝てますが、暴落では市場の約${beta.toFixed(1)}倍沈みます。`;
+  if(beta<=0.6)return `🛡️ <b>β＝${beta.toFixed(2)}</b>と低め。暴落に強い守り。期待リターンも控えめ（${mu.toFixed(1)}%）です。`;
+  return `✅ 個別リスクは分散済み、国債・金で市場リスクも抑えた<b>バランス型（β＝${beta.toFixed(2)}）</b>。500回試して破産率を確かめよう。`;
 }
 function goBuild(){stopAuto();renderAssets();show('build');}
 
